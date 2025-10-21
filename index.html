@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviator Predictor - Hacker Mode</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff99;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    .container {
+      padding: 50px 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+      text-align: center;
+      border: 2px solid #00ff99;
+      background: transparent;
+      color: #00ff99;
+      outline: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: transparent;
+      border: 2px solid #00ff99;
+      color: #00ff99;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .chat-box {
+      background-color: #001a0f;
+      border: 2px solid #00ff99;
+      padding: 20px;
+      height: 200px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+    .brand {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #00ff99;
+      text-shadow: 0 0 10px #00ff99;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="verifyPage">
+    <div class="brand">AviatorHack by Jabali</div>
+    <h2>1XBET Account Verification</h2>
+    <p>Enter your 10-digit 1XBET ID (must start with 142):</p>
+    <input type="text" id="userId" maxlength="10" placeholder="142******" />
+    <br />
+    <button onclick="verifyId()">Verify ID</button>
+    <p id="result"></p>
+  </div>
+
+  <div class="container hidden" id="predictorPage">
+    <div class="brand">AviatorHack by Jabali</div>
+    <h2>Aviator Predictor</h2>
+    <div class="chat-box" id="chatBox">
+      <p>> System initialized...</p>
+    </div>
+    <button onclick="predict()">Predict Game</button>
+  </div>
+
+  <div class="footer">
+    🛩️ Contact: <a href="https://t.me/JabaliAviator_bot" target="_blank" style="color:#00ff99">@JabaliAviator_bot</a>
+  </div>
+
+  <script>
+    function verifyId() {
+      const id = document.getElementById('userId').value.trim();
+      const result = document.getElementById('result');
+      if (/^142\d{7}$/.test(id)) {
+        result.innerText = '✅ Verified successfully!';
+        setTimeout(() => {
+          document.getElementById('verifyPage').classList.add('hidden');
+          document.getElementById('predictorPage').classList.remove('hidden');
+        }, 1000);
+      } else {
+        result.innerText = '❌ Invalid ID. Must start with 142 and be 10 digits.';
+      }
+    }
+
+    function predict() {
+      const chat = document.getElementById('chatBox');
+      chat.innerHTML += '<p>> Accessing Aviator servers...</p>';
+      chat.scrollTop = chat.scrollHeight;
+      const delay = Math.random() * 1000 + 3000;
+      setTimeout(() => {
+        const coef = (Math.random() * (3.23 - 0.1) + 0.1).toFixed(2);
+        chat.innerHTML += `<p>> Prediction complete: <strong>x${coef}</strong></p>`;
+        chat.scrollTop = chat.scrollHeight;
+      }, delay);
+    }
+  </script>
+</body>
+</html>
