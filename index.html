@@ -3,126 +3,159 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aviator Predictor - Hacker Mode</title>
+  <title>AI Predictor – Deposit</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    body {
-      background-color: #000;
-      color: #00ff99;
-      font-family: 'Courier New', monospace;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      overflow-x: hidden;
-    }
-    .container {
-      padding: 50px 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      font-size: 16px;
-      text-align: center;
-      border: 2px solid #00ff99;
-      background: transparent;
-      color: #00ff99;
-      outline: none;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: transparent;
-      border: 2px solid #00ff99;
-      color: #00ff99;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #00ff99;
-      color: #000;
-    }
-    .hidden {
-      display: none;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-    .chat-box {
-      background-color: #001a0f;
-      border: 2px solid #00ff99;
-      padding: 20px;
-      height: 200px;
+    .console-box {
+      font-family: monospace;
+      background-color: #1a1a1a;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 20px #00ff88;
+      color: #00ff88;
+      height: 250px;
       overflow-y: auto;
-      text-align: left;
-      font-size: 14px;
-      margin-top: 20px;
     }
-    .footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #888;
+    .loading-screen {
+      font-family: monospace;
+      background: #000;
+      color: #00ff88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      z-index: 50;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
     }
-    .brand {
-      font-size: 22px;
-      margin-bottom: 20px;
-      color: #00ff99;
-      text-shadow: 0 0 10px #00ff99;
-    }
+    .hidden-screen { display: none; }
   </style>
 </head>
-<body>
-  <div class="container" id="verifyPage">
-    <div class="brand">AviatorHack by Jabali</div>
-    <h2>1XBET Account Verification</h2>
-    <p>Enter your 10-digit 1XBET ID (must start with 142):</p>
-    <input type="text" id="userId" maxlength="10" placeholder="142******" />
-    <br />
-    <button onclick="verifyId()">Verify ID</button>
-    <p id="result"></p>
+<body class="bg-gray-900 text-white font-sans">
+  <div id="loading" class="loading-screen">
+    <p>Loading... Please wait while we set up your experience.</p>
   </div>
+  <div id="mainContent" class="hidden-screen">
+    <header class="w-full bg-gray-800 p-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-green-400">1xBet AI Predictor</h1>
+      <nav class="space-x-4">
+        <a href="#how" class="hover:text-green-400">How it works</a>
+        <a href="#games" class="hover:text-green-400">Games</a>
+        <a href="#start" class="hover:text-green-400">Start</a>
+      </nav>
+    </header>
+    <section class="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+      <h2 class="text-3xl md:text-5xl font-bold mb-6">
+        Earn real money with AI-powered game predictions
+      </h2>
+      <div class="mb-4 text-lg font-semibold text-yellow-300">
+        👋 Greetings and welcome to the official <span class="text-green-400">Hackbot</span> service!
+      </div>
+      <p class="max-w-xl mb-8 text-gray-300">
+        Join thousands of users earning with our smart AI on Aviator, Mines, and Penalty. 98% accuracy, real-time predictions, and instant withdrawals!
+      </p>
+      <!-- ID input for connection -->
+      <input id="userId" type="text" maxlength="10" placeholder="Enter your 1xBet account ID" class="bg-gray-700 text-white p-3 rounded-md mb-4" />
+      <button id="connectButton" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-xl text-lg transition">Connect Account</button>
+      <!-- Success message -->
+      <div id="connectionSuccess" class="hidden text-green-400 font-bold mt-6">
+        <p>Account ID: <span id="accountIdDisplay">1234567890</span> connected successfully!</p>
+        <p>Status: Active | 100% prediction accuracy | AI algorithms analyzed</p>
+        <button id="getSignalButton" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-xl text-lg transition mt-4">Get Signal</button>
+      </div>
+      <!-- Error message for deposit + PROMOCODE block -->
+      <div id="errorBox" class="hidden bg-red-600 p-6 rounded-xl max-w-md mx-auto mt-6">
+        <h2 class="text-xl font-bold mb-2">⚠️ Deposit Not Found</h2>
+        <p class="mb-4">It seems your balance is empty. Please make a deposit of <strong>1530 XAF</strong> to unlock access to the signals and start earning!</p>
+        <a href="https://reffpa.com/L?tag=d_4869066m_97c__[]general[]_d173602_l229237_adaptive_banner&site=4869066&ad=97&r=registration" target="_blank" id="depositButton" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded-lg transition">
+          Deposit Now on 1xBet
+        </a>
+        <!-- PROMOCODE and reminder -->
+        <div class="mt-6 bg-red-800 text-white p-4 rounded-lg font-bold text-center">
+          <div class="mb-1 text-lg">Your Promo Code: <span class="bg-black p-1 rounded text-green-400">NLL77</span></div>
+          <div>Make sure to register <span class="underline">only</span> with this promo code to access all features!</div>
+        </div>
+      </div>
+    </section>
 
-  <div class="container hidden" id="predictorPage">
-    <div class="brand">AviatorHack by Jabali</div>
-    <h2>Aviator Predictor</h2>
-    <div class="chat-box" id="chatBox">
-      <p>> System initialized...</p>
-    </div>
-    <button onclick="predict()">Predict Game</button>
-  </div>
+    <section class="bg-gray-800 py-12 px-6 text-center">
+      <h3 class="text-2xl font-bold text-green-400 mb-6">Today's Winners (XAF)</h3>
+      <div class="grid md:grid-cols-2 gap-4 text-left max-w-4xl mx-auto text-sm text-green-300">
+        <p>👤 User ID: 1218473422 – 275,328 XAF</p>
+        <p>👤 User ID: 9912384741 – 221,900 XAF</p>
+        <p>👤 User ID: 3099234822 – 184,120 XAF</p>
+        <p>👤 User ID: 1187339121 – 150,000 XAF</p>
+        <p>👤 User ID: 4412900113 – 132,850 XAF</p>
+        <p>👤 User ID: 8283721091 – 128,440 XAF</p>
+        <p>👤 User ID: 7751937742 – 100,705 XAF</p>
+        <p>👤 User ID: 5554921811 – 98,330 XAF</p>
+        <p>👤 User ID: 1983238742 – 85,000 XAF</p>
+        <p>👤 User ID: 3377749301 – 79,210 XAF</p>
+      </div>
+    </section>
 
-  <div class="footer">
-    🛩️ Contact: <a href="https://t.me/JabaliAviator_bot" target="_blank" style="color:#00ff99">@JabaliAviator_bot</a>
+    <section id="games" class="bg-gray-800 py-12 px-6 text-center">
+      <h3 class="text-2xl font-bold text-green-400 mb-6">Supported Games</h3>
+      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div class="bg-gray-700 p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-bold mb-2">🎮 Aviator</h4>
+          <p class="text-gray-300">Predict when to cash out before the plane flies away! Our AI detects trends in real-time.</p>
+        </div>
+        <div class="bg-gray-700 p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-bold mb-2">💣 Mines</h4>
+          <p class="text-gray-300">Avoid the bombs, collect winnings. Our system finds low-risk paths for maximum profit.</p>
+        </div>
+        <div class="bg-gray-700 p-6 rounded-xl shadow-lg">
+          <h4 class="text-xl font-bold mb-2">🥅 Penalty</h4>
+          <p class="text-gray-300">Know where to shoot or dive. Beat the goalkeeper with data-driven predictions.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="bg-gray-900 py-12 px-6 text-center">
+      <h3 class="text-2xl font-bold text-green-400 mb-6">How It Works</h3>
+      <div class="max-w-3xl mx-auto space-y-4 text-gray-300">
+        <p>📡 Our AI analyzes live data and game history 24/7.</p>
+        <p>💡 It identifies winning patterns that ensure consistent profits.</p>
+        <p>📲 You receive reliable real-time signals — straight to your device.</p>
+      </div>
+    </section>
+
+    <section class="bg-black py-12 px-6 text-center">
+      <h3 class="text-xl font-bold text-green-400 mb-4">[ Console – Monitoring Log ]</h3>
+      <div class="console-box max-w-3xl mx-auto text-left" id="console">
+        <p>[INFO] Prediction service active ✅</p>
+      </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm py-6">
+      © 2025 AI Predictor. Not affiliated with 1xBet. Use responsibly.
+    </footer>
   </div>
 
   <script>
-    function verifyId() {
-      const id = document.getElementById('userId').value.trim();
-      const result = document.getElementById('result');
-      if (/^142\d{7}$/.test(id)) {
-        result.innerText = '✅ Verified successfully!';
-        setTimeout(() => {
-          document.getElementById('verifyPage').classList.add('hidden');
-          document.getElementById('predictorPage').classList.remove('hidden');
-        }, 1000);
-      } else {
-        result.innerText = '❌ Invalid ID. Must start with 142 and be 10 digits.';
-      }
-    }
+    setTimeout(() => {
+      document.getElementById("loading").classList.add("hidden-screen");
+      document.getElementById("mainContent").classList.remove("hidden-screen");
+    }, 3000);
 
-    function predict() {
-      const chat = document.getElementById('chatBox');
-      chat.innerHTML += '<p>> Accessing Aviator servers...</p>';
-      chat.scrollTop = chat.scrollHeight;
-      const delay = Math.random() * 1000 + 3000;
-      setTimeout(() => {
-        const coef = (Math.random() * (3.23 - 0.1) + 0.1).toFixed(2);
-        chat.innerHTML += `<p>> Prediction complete: <strong>x${coef}</strong></p>`;
-        chat.scrollTop = chat.scrollHeight;
-      }, delay);
-    }
+    document.getElementById("connectButton").addEventListener("click", () => {
+      const userId = document.getElementById("userId").value;
+      if (userId && /^[0-9]{1,10}$/.test(userId)) {
+        document.getElementById("accountIdDisplay").innerText = userId;
+        document.getElementById("connectionSuccess").classList.remove("hidden");
+        document.getElementById("errorBox").classList.add("hidden");
+      } else {
+        alert("Please enter a valid numeric ID (up to 10 digits).");
+      }
+    });
+
+    document.getElementById("getSignalButton").addEventListener("click", () => {
+      document.getElementById("errorBox").classList.remove("hidden");
+    });
   </script>
 </body>
 </html>
